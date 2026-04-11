@@ -6,7 +6,7 @@ from tensorflow.keras.applications import EfficientNetB0
 from tensorflow.keras.applications.efficientnet import preprocess_input
 
 # Load models
-model = joblib.load("model.pkl")
+model = joblib.load("model(1).pkl")
 
 base_model = EfficientNetB0(
     weights='imagenet',
