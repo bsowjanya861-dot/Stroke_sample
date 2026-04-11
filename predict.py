@@ -4,31 +4,36 @@ import json
 import os
 from skimage.io import imread
 from skimage.transform import resize
-import tensorflow as tf
 from tensorflow.keras.applications import EfficientNetB0
 from tensorflow.keras.applications.efficientnet import preprocess_input
 
 # -------------------------
-# Load paths safely
+# Safe path handling
 # -------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-model_path = os.path.join(BASE_DIR, "lgbm_model.joblib")
-classes_path = os.path.join(BASE_DIR, "classes.json")
+MODEL_PATH = os.path.join(BASE_DIR, "lgbm_model.joblib")
+CLASSES_PATH = os.path.join(BASE_DIR, "classes.json")
+
+# -------------------------
+# DEBUG (IMPORTANT)
+# -------------------------
+print("Files in directory:", os.listdir(BASE_DIR))
+print("Model path:", MODEL_PATH)
 
 # -------------------------
 # Load model
 # -------------------------
-lgbm = joblib.load(model_path)
+lgbm = joblib.load(MODEL_PATH)
 
 # -------------------------
 # Load classes
 # -------------------------
-with open(classes_path, "r") as f:
+with open(CLASSES_PATH, "r") as f:
     class_names = json.load(f)["classes"]
 
 # -------------------------
-# Load EfficientNet model
+# Load EfficientNet
 # -------------------------
 base_model = EfficientNetB0(
     weights='imagenet',
@@ -41,34 +46,19 @@ base_model = EfficientNetB0(
 # -------------------------
 def predict_image(image_path):
 
-    # 1. Read image
     img = imread(image_path, as_gray=True)
-
-    # 2. Resize
     img = resize(img, (128, 128))
-
-    # 3. Normalize
     img = img / 255.0
 
-    # 4. Convert to RGB
     img = np.repeat(img[..., np.newaxis], 3, axis=-1)
-
-    # 5. Preprocess
     img = preprocess_input(img)
 
-    # 6. Add batch dimension
     img = np.expand_dims(img, axis=0)
 
-    # 7. Extract features
     features = base_model.predict(img)
     features = features.reshape(1, -1)
 
-    # 8. Predict
-    prediction = lgbm.predict(features)[0]
-    probabilities = lgbm.predict_proba(features)[0]
+    pred = lgbm.predict(features)[0]
+    probs = lgbm.predict_proba(features)[0]
 
-    # 9. Get label
-    predicted_class = class_names[prediction]
-
-    # 10. Return result
-    return predicted_class, probabilities, class_names
+    return class_names[pred], probs, class_names
