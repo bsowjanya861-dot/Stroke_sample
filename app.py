@@ -17,4 +17,4 @@ if uploaded_file is not None:
         prediction, confidence = predict_image(tmp.name)
 
     st.success(f"Prediction: {prediction}")
-st.image(image, caption="Uploaded Image", width=300)
+    st.image(image, caption="Uploaded Image", width=300)
