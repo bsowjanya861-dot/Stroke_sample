@@ -1,3 +1,7 @@
+import os
+
+print("CURRENT DIR:", os.getcwd())
+print("FILES IN CURRENT DIR:", os.listdir())
 import numpy as np
 import joblib
 import json
