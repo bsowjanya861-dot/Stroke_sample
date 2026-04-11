@@ -5,10 +5,9 @@ from PIL import Image
 from tensorflow.keras.applications import EfficientNetB0
 from tensorflow.keras.applications.efficientnet import preprocess_input
 
-# Load LightGBM model
+# Load models
 model = joblib.load("model.pkl")
 
-# Load EfficientNet
 base_model = EfficientNetB0(
     weights='imagenet',
     include_top=False,
@@ -17,28 +16,34 @@ base_model = EfficientNetB0(
 
 class_names = ['Ischemic', 'Haemorrhagic', 'Normal']
 
+# 🔥 NEW: crop center to remove text/noise
+def crop_center(img):
+    h, w = img.shape[:2]
+    return img[int(h*0.1):int(h*0.9), int(w*0.1):int(w*0.9)]
+
 def preprocess_image(img_path):
     img = Image.open(img_path).convert("RGB")
-    img = img.resize((128, 128))
-
     img = np.array(img)
+
+    # 🔥 remove borders/text
+    img = crop_center(img)
+
+    # resize
+    img = Image.fromarray(img).resize((128, 128))
+    img = np.array(img)
+
+    # EfficientNet preprocessing
     img = preprocess_input(img)
 
     img = np.expand_dims(img, axis=0)
-
     return img
 
 def predict_image(img_path):
     img = preprocess_image(img_path)
 
-    # Extract features (IMPORTANT)
     features = base_model.predict(img)
-
-    # Flatten → must match 20480
     features_flat = features.reshape(1, -1)
 
     pred = model.predict(features_flat)
 
-    pred_class = pred[0]
-
-    return class_names[pred_class], 1.0
+    return class_names[pred[0]], 1.0
