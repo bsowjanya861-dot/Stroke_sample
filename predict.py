@@ -16,7 +16,7 @@ from tensorflow.keras.applications.efficientnet import preprocess_input
 # -------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-MODEL_PATH = os.path.join(BASE_DIR, "lgbm_model .joblib")
+MODEL_PATH = os.path.join(BASE_DIR, "lgbm_model(2).joblib")
 CLASSES_PATH = os.path.join(BASE_DIR, "classes.json")
 
 # -------------------------
