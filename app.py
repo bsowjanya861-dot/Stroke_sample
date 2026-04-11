@@ -13,7 +13,7 @@ from tensorflow.keras.applications.efficientnet import preprocess_input
 
 @st.cache_resource
 def load_models():
-    lgbm_model = joblib.load("lgbm_model.joblib")
+    lgbm_model = joblib.load("lgbm_model (4).joblib")
 
     base_model = EfficientNetB0(
         weights='imagenet',
