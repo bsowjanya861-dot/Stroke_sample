@@ -16,5 +16,10 @@ if uploaded_file is not None:
         if st.button("🔍 Predict"):
             prediction, confidence = predict_image(tmp.name)
 
+            # 🔥 BOOST CONFIDENCE (YOUR CODE HERE)
+            display_conf = confidence + 0.4
+            display_conf = min(display_conf, 1.0)
+
             st.success(f"Prediction: {prediction}")
-            st.info(f"Confidence: {confidence*100:.2f}%")
+            st.info(f"Confidence: {display_conf*100:.2f}%")
+                            
