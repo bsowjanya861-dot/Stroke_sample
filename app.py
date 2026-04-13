@@ -5,7 +5,7 @@ import tempfile
 
 st.title("🧠 Brain Stroke Prediction")
 
-#---------------background-color-------------------
+# Background
 def set_background():
     st.markdown(
         """
@@ -13,7 +13,6 @@ def set_background():
         .stApp {
             background-color: #E6E6FA !important;
         }
-
         html, body {
             background-color: #E6E6FA !important;
         }
@@ -24,7 +23,7 @@ def set_background():
 
 set_background()
 
-uploaded_file = st.file_uploader("Upload MRI Image", type=["jpg","png","jpeg"])
+uploaded_file = st.file_uploader("Upload MRI Image", type=["jpg", "png", "jpeg"])
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
@@ -32,10 +31,10 @@ if uploaded_file is not None:
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
         image.save(tmp.name, format="JPEG")
+        temp_path = tmp.name   # ✅ save path safely
 
-    # ✅ FIXED INDENTATION
     if st.button("🔍 Predict"):
-        prediction, confidence = predict_image(tmp.name)
+        prediction, confidence = predict_image(temp_path)
 
         st.success(f"Prediction: {prediction}")
         st.info(f"Confidence: {confidence:.2f}")
