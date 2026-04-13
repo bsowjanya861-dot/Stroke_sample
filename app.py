@@ -4,6 +4,26 @@ from PIL import Image
 import tempfile
 
 st.title("🧠 Brain Stroke Prediction")
+#---------------background-color-------------------
+def set_background():
+    st.markdown(
+        """
+        <style>
+        /* Force full page background */
+        .stApp {
+            background-color: #E6E6FA !important;
+        }
+
+        /* Remove any white gaps */
+        html, body {
+            background-color: #E6E6FA !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+set_background()
 
 uploaded_file = st.file_uploader("Upload MRI Image", type=["jpg","png","jpeg"])
 
