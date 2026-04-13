@@ -35,5 +35,5 @@ if uploaded_file is not None:
 
     if st.button("🔍 Predict"):
         prediction, confidence = predict_image(temp_path)
-    st.success(f"Prediction: {prediction}")
-    st.info(f"Confidence: {confidence:.2f}")
+        st.success(f"Prediction: {prediction}")
+        st.info(f"Confidence: {confidence:.2f}")
