@@ -31,10 +31,9 @@ if uploaded_file is not None:
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
         image.save(tmp.name, format="JPEG")
-        temp_path = tmp.name   # ✅ save path safely
+        temp_path = tmp.name
 
     if st.button("🔍 Predict"):
         prediction, confidence = predict_image(temp_path)
-
         st.success(f"Prediction: {prediction}")
         st.info(f"Confidence: {confidence:.2f}")
