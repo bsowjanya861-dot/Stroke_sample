@@ -13,6 +13,11 @@ base_model = EfficientNetB0(
     include_top=False,
     input_shape=(128, 128, 3)
 )
+if st.button("🔍 Predict"):
+                proba = model.predict_proba(features)
+                confidence = float(np.max(proba))
+                pred = int(np.argmax(proba))
+
 
 class_names = ['Ischemic', 'Haemorrhagic', 'Normal']
 
