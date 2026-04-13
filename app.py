@@ -4,17 +4,16 @@ from PIL import Image
 import tempfile
 
 st.title("🧠 Brain Stroke Prediction")
+
 #---------------background-color-------------------
 def set_background():
     st.markdown(
         """
         <style>
-        /* Force full page background */
         .stApp {
             background-color: #E6E6FA !important;
         }
 
-        /* Remove any white gaps */
         html, body {
             background-color: #E6E6FA !important;
         }
@@ -34,9 +33,9 @@ if uploaded_file is not None:
     with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
         image.save(tmp.name, format="JPEG")
 
+    # ✅ FIXED INDENTATION
     if st.button("🔍 Predict"):
-         prediction, confidence = predict_image(tmp.name)
+        prediction, confidence = predict_image(tmp.name)
 
         st.success(f"Prediction: {prediction}")
         st.info(f"Confidence: {confidence:.2f}")
-        
