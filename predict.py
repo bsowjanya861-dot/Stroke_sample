@@ -43,9 +43,5 @@ def predict_image(img_path):
 
     features = base_model.predict(img)
     features_flat = features.reshape(1, -1)
-
-    proba = model.predict_proba(features_flat)
-    confidence = float(np.max(proba))
-    pred = int(np.argmax(proba))
-
-    return class_names[pred], confidence
+    pred = model.predict(features_flat) 
+    return class_names[pred[0]], 1.0
